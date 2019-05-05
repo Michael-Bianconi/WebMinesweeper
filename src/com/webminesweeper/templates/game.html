@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<body>
+
+    <table>
+    {% for row in board.tiles %}
+        <tr>
+        {% for col in row %}
+                <td>
+                    <button type="button">{{ col.__str__() }}</button>
+                </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+
+</body>
+</html>
