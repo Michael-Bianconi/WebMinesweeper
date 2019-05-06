@@ -32,34 +32,6 @@ class Board(object):
 
         return neighbors
 
-    def update_digits(self):
-
-        for row in range(self.height):
-            for col in range(self.width):
-                tile = self.get(row, col)
-                tile.digit = 0
-                neighbors = self.get_neighbors(tile)
-                for n in neighbors:
-                    if n.bomb:
-                        tile.digit += 1
-
-    def place_bombs(self, num_bombs: int):
-
-        while num_bombs > 0:
-
-            tile = None
-
-            while tile is None:
-                row = random.randint(0, self.height-1)
-                col = random.randint(0, self.width-1)
-                tile = self.get(row, col)
-                if tile.bomb:
-                    tile = None
-
-            tile.bomb = True
-            num_bombs -= 1
-
-        self.update_digits()
 
     def __str__(self):
         string = ""

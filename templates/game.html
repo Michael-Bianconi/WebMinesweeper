@@ -1,0 +1,29 @@
+<!doctype html>
+<link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}"><html>
+<body>
+    <table>
+    {% for row in board.tiles %}
+        <tr>
+        {% for col in row %}
+                <td>
+                    <button type="button" name={{ col.row }},>{{ col.__str__() }}</button>
+                </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type=text/javascript>
+        $(function() {
+            $('a#process_input').bind('click', function() {
+                $.getJSON('/background_process', {
+				    proglang: $('input[name="proglang"]').val(),
+				}, function(data) {
+				  $("#result").text(data.result);
+				});
+				return false;
+			  });
+			});
+		</script>
+</body>
+</html>
