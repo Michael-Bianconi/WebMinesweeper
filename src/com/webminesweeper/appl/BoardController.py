@@ -64,3 +64,15 @@ class BoardController(object):
                 for n in neighbors:
                     if n.bomb:
                         tile.digit += 1
+
+    def uncover_region(self, row: int, col: int):
+        self.uncover(row, col)
+        tile = self.board.get(row, col)
+        print("digit="+tile.digit.__str__())
+        if tile.digit == 0:
+            print("getting neighbors")
+            neighbors = self.board.get_neighbors(tile)
+            print(neighbors)
+            for n in neighbors:
+                if n.covered:
+                    self.uncover_region(n.row, n.col)

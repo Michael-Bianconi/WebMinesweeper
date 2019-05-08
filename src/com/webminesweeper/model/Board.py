@@ -38,7 +38,8 @@ class Board(object):
         for r in range(self.height):
             for c in range(self.width):
                 string += self.tiles[r][c].__str__()
-            string += ' '
+            if r != self.height-1:
+                string += ' '
         return string
 
     def __repr__(self):
@@ -46,5 +47,6 @@ class Board(object):
         for r in range(self.height):
             for c in range(self.width):
                 string += self.tiles[r][c].__repr__()
-            string += ' '
+            if r != self.height-1:
+                string += ' '
         return string

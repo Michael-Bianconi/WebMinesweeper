@@ -1,6 +1,14 @@
+/******************************************************************************
+ * Global attributes                                                          *
+ *****************************************************************************/
+
+var BOARD_WIDTH_PX = "400px";
+var BOARD_HEIGHT_PX = "400px";
+
 /**
  * Called when a tile is clicked. Sends the coordinates
  * to the /onTileClick route as a string tuple of "row,col"
+ * This will update the board.
  */
 function onTileClick() {
 
@@ -12,9 +20,10 @@ function onTileClick() {
         data: JSON.stringify({"position": position}),
         contentType: "application/json; charset=UTF-8",
         dataType: "json",
+        // The route should return the string of tiles
+        // On success, rebuild the board
         success: function(result) {
-
-            console.log("Success with result=" + JSON.stringify(result));
+            console.log(JSON.stringify(result));
             var oldBoard = document.getElementById("boardTable");
             oldBoard.parentNode.removeChild(oldBoard);
             boardCreate(result['board']);
@@ -26,9 +35,14 @@ function onTileClick() {
 /** Builds the table of tiles from the Board element. */
 function boardCreate(tiles) {
     if (tiles == null) {return}
+
+    var num_rows = 0;
+    var num_cols = 0;
+
     var body = document.getElementsByTagName('body')[0];
     var tbl = document.createElement('table');
     tbl.id = "boardTable";
+
     var tbdy = document.createElement('tbody');
 
     var trow = document.createElement('tr');
@@ -39,7 +53,9 @@ function boardCreate(tiles) {
             tbdy.appendChild(trow);
             trow = document.createElement('tr');
             row++;
+            num_rows++;
             col = 0;
+            num_cols = 0;
         }
 
         else {
@@ -47,12 +63,17 @@ function boardCreate(tiles) {
             var tile = buildTileButton(row, col, tiles[s]);
             td.appendChild(tile);
             trow.appendChild(td);
+            num_cols++;
             col++;
         }
     }
+    tbdy.appendChild(trow);
+    num_rows++;
 
-  tbl.appendChild(tbdy);
-  body.appendChild(tbl)
+    tbl.style.setProperty("--board-col-count", num_cols);
+    tbl.style.setProperty("--board-row-count", num_rows);
+    tbl.appendChild(tbdy);
+    body.appendChild(tbl)
 }
 
 function buildTileButton(row, col, char) {
@@ -61,6 +82,7 @@ function buildTileButton(row, col, char) {
     tile.onclick = onTileClick;
     tile.innerText = char;
     tile.classList.add("tile");
+    tile.fontSize = "36px";
     charToClass(tile);
     return tile;
 }
@@ -73,23 +95,59 @@ function charToClass(tile) {
             tile.style.color = "transparent";
             tile.style.backgroundColor = "#BBBBBB";
             return;
-        case 'B':
+        case '*':
             tile.style.color = "transparent";
             tile.style.backgroundColor = "black";
             return;
         case 'F':
             tile.style.color = "transparent";
-            tile.style.backGroundColor = "red";
+            tile.style.backgroundColor = "red";
             return;
-        case '0': return "uncovered0";
-        case '1': return "uncovered1";
-        case '2': return "uncovered2";
-        case '3': return "uncovered3";
-        case '4': return "uncovered4";
-        case '5': return "uncovered5";
-        case '6': return "uncovered6";
-        case '7': return "uncovered7";
-        case '8': return "uncovered8";
-        default: return "button";
+
+        case '0':
+            tile.style.color = "transparent";
+            tile.style.backgroundColor = "white";
+            return;
+
+        case '1':
+            tile.style.color = "blue";
+            tile.style.backgroundColor = "white";
+            return;
+
+        case '2':
+            tile.style.color = "green";
+            tile.style.backgroundColor = "white";
+            return;
+
+        case '3':
+            tile.style.color = "red";
+            tile.style.backgroundColor = "white";
+            return;
+
+        case '4':
+            tile.style.color = "#2e86c1";
+            tile.style.backgroundColor = "white";
+            return;
+
+        case '5':
+            tile.style.color = "#943126";
+            tile.style.backgroundColor = "white";
+            return;
+
+        case '6':
+            tile.style.color = "cyan";
+            tile.style.backgroundColor = "white";
+            return;
+
+        case '7':
+            tile.style.color = "black";
+            tile.style.backgroundColor = "white";
+            return;
+
+        case '8':
+            tile.style.color = "gray";
+            tile.style.backgroundColor = "white";
+
+        default: return;
     }
 }
