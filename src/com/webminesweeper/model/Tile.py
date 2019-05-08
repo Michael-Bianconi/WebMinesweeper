@@ -29,7 +29,7 @@ class Tile(object):
         elif self.bomb:
             return '*'
         elif self.digit is None:
-            return ' '
+            return '0'
         else:
             return self.digit.__str__()
 

@@ -6,16 +6,6 @@
 <script src="{{url_for('static', filename='scripts/game.js')}}"></script>
 
 <body>
-    <table>
-    {% for row in board.tiles %}
-        <tr>
-        {% for col in row %}
-                <td>
-                    <button type="button" name='{{col.row}},{{col.col}}', onclick=onTileClick()>{{col.__str__()}}</button>
-                </td>
-        {% endfor %}
-        </tr>
-    {% endfor %}
-    </table>
+    <script>boardCreate("{{board|safe}}")</script>
 </body>
 </html>
