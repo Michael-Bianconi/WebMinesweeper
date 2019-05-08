@@ -16,10 +16,23 @@ class Board(object):
                 row.append(Tile(r, c))
             self.tiles.append(row)
 
+        for r in self.tiles:
+            for c in r:
+                c.neighbors = self._get_neighbors(c)
+
     def get(self, row: int, col: int):
         return self.tiles[row][col]
 
-    def get_neighbors(self, tile: Tile):
+    def _get_neighbors(self, tile: Tile):
+        """
+        Gets all tiles surrounding the given tile.
+
+        NOTE: Use the tile's 'neighbors' attribute whenever
+        possible.
+
+        :param tile: Tile to get the neighbors of.
+        :return: List of tiles surrounding the tile.
+        """
         neighbors = []
         start_row = max(0, tile.row - 1)
         start_col = max(0, tile.col - 1)

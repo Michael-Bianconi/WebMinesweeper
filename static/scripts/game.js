@@ -23,7 +23,6 @@ function onTileClick() {
         // The route should return the string of tiles
         // On success, rebuild the board
         success: function(result) {
-            console.log(JSON.stringify(result));
             var oldBoard = document.getElementById("boardTable");
             oldBoard.parentNode.removeChild(oldBoard);
             boardCreate(result['board']);
@@ -77,7 +76,7 @@ function boardCreate(tiles) {
     var root = document.documentElement;
     root.style.setProperty("--board-col-count", boardWidth);
     root.style.setProperty("--board-row-count", boardHeight);
-    
+
     tbl.appendChild(tbdy);
     div.appendChild(tbl)
 }

@@ -5,7 +5,15 @@ class Tile(object):
     bombs immediately around it.
     """
 
-    __slots__ = {"row", "col", "bomb", "flagged", "covered", "digit"}
+    __slots__ = {
+        "row",
+        "col",
+        "bomb",
+        "flagged",
+        "covered",
+        "digit",
+        "neighbors"
+    }
 
     def __init__(self,
                  row: int,
@@ -20,6 +28,7 @@ class Tile(object):
         self.flagged = flagged
         self.covered = covered
         self.digit = digit
+        self.neighbors = None
 
     def __str__(self):
         if self.covered and self.flagged:
