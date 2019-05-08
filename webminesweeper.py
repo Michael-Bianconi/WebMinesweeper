@@ -2,7 +2,7 @@ from src.com.webminesweeper.model.Board import Board
 from src.com.webminesweeper.appl.BoardController import BoardController
 from flask import Flask, render_template, request, json
 app = Flask(__name__)
-board = Board(10, 5)
+board = Board(100, 200)
 controller = BoardController(board)
 controller.place_bombs(5)
 

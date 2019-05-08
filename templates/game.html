@@ -6,6 +6,8 @@
 <script src="{{url_for('static', filename='scripts/game.js')}}"></script>
 
 <body>
-    <script>boardCreate("{{board|safe}}")</script>
+    <div id="boardDiv">
+        <script>boardCreate("{{board|safe}}")</script>
+    </div>
 </body>
 </html>

@@ -40,10 +40,10 @@ function onTileClick() {
 function boardCreate(tiles) {
     if (tiles == null) {return}
 
-    var num_rows = 0;
-    var num_cols = 0;
+    var boardWidth = 0;
+    var boardHeight = 0;
 
-    var body = document.getElementsByTagName('body')[0];
+    var div = document.getElementById('boardDiv');
     var tbl = document.createElement('table');
     tbl.id = "boardTable";
 
@@ -57,9 +57,9 @@ function boardCreate(tiles) {
             tbdy.appendChild(trow);
             trow = document.createElement('tr');
             row++;
-            num_rows++;
+            boardHeight++;
             col = 0;
-            num_cols = 0;
+            boardWidth = 0;
         }
 
         else {
@@ -67,17 +67,19 @@ function boardCreate(tiles) {
             var tile = buildTileButton(row, col, tiles[s]);
             td.appendChild(tile);
             trow.appendChild(td);
-            num_cols++;
+            boardWidth++;
             col++;
         }
     }
     tbdy.appendChild(trow);
-    num_rows++;
+    boardHeight++;
 
-    document.documentElement.style.setProperty("--board-col-count", num_cols);
-    document.documentElement.style.setProperty("--board-row-count", num_rows);
+    var root = document.documentElement;
+    root.style.setProperty("--board-col-count", boardWidth);
+    root.style.setProperty("--board-row-count", boardHeight);
+    
     tbl.appendChild(tbdy);
-    body.appendChild(tbl)
+    div.appendChild(tbl)
 }
 
 function buildTileButton(row, col, char) {
