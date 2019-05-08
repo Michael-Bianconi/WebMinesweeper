@@ -32,7 +32,11 @@ function onTileClick() {
 }
 
 
-/** Builds the table of tiles from the Board element. */
+/**
+ * Builds the table of tiles from the Board element.
+ *
+ * TODO: Clean this up. Maybe jsonify the board?
+ */
 function boardCreate(tiles) {
     if (tiles == null) {return}
 
@@ -70,8 +74,8 @@ function boardCreate(tiles) {
     tbdy.appendChild(trow);
     num_rows++;
 
-    tbl.style.setProperty("--board-col-count", num_cols);
-    tbl.style.setProperty("--board-row-count", num_rows);
+    document.documentElement.style.setProperty("--board-col-count", num_cols);
+    document.documentElement.style.setProperty("--board-row-count", num_rows);
     tbl.appendChild(tbdy);
     body.appendChild(tbl)
 }
@@ -82,7 +86,6 @@ function buildTileButton(row, col, char) {
     tile.onclick = onTileClick;
     tile.innerText = char;
     tile.classList.add("tile");
-    tile.fontSize = "36px";
     charToClass(tile);
     return tile;
 }
