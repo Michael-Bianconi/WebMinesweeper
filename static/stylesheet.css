@@ -1,8 +1,8 @@
 :root {
     --board-row-count: 1; /* The number of columns on the board. */
     --board-col-count: 1; /* The number of rows on the board. */
-    --tile-width-px: 50px;
-    --tile-height-px: 50px;
+    --tile-width-px: 100px;
+    --tile-height-px:100px;
 }
 
 .tile {
@@ -12,7 +12,10 @@
     font-family: "Verdana", Geneva, sans-serif;
     font-weight: bold;
     font-size: calc(var(--tile-height-px) * 0.8);
-    transition-duration: 0.2s;
+}
+
+.tile:hover {
+    filter: brightness(70%) invert(1);
 }
 
 /*

@@ -1,4 +1,4 @@
-from src.com.webminesweeper.model.Board import Board
+from src.com.webminesweeper.model.Board import Board, BoardState
 import random
 
 
@@ -71,3 +71,21 @@ class BoardController(object):
             for n in tile.neighbors:
                 if n.covered:
                     self.uncover_region(n.row, n.col)
+
+    def board_state(self):
+        """
+        If any bomb is uncovered, LOST
+        If any non-bomb is covered, IN_PROGRESS
+        Else, WON
+        """
+        in_progress = False
+        for row in self.board.tiles:
+            for col in row:
+                if col.bomb and not col.covered:
+                    return BoardState.LOST
+                if not col.bomb and col.covered:
+                    in_progress = True
+        if in_progress:
+            return BoardState.IN_PROGRESS
+        else:
+            return BoardState.WON

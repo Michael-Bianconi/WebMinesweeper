@@ -23,9 +23,18 @@ function onTileClick() {
         // The route should return the string of tiles
         // On success, rebuild the board
         success: function(result) {
-            var oldBoard = document.getElementById("boardTable");
-            oldBoard.parentNode.removeChild(oldBoard);
-            boardCreate(result['board']);
+            console.log(JSON.stringify(result));
+            if (result['state'] === "BoardState.WON") {
+                window.location = "/won";
+            }
+            else if (result['state'] === "BoardState.LOST") {
+                window.location = "/lost";
+            }
+            else {
+                var oldBoard = document.getElementById("boardTable");
+                oldBoard.parentNode.removeChild(oldBoard);
+                boardCreate(result['board']);
+            }
         }
     });
 }
@@ -86,6 +95,7 @@ function buildTileButton(row, col, char) {
     tile.name = row.toString() + ',' + col.toString();
     tile.onclick = onTileClick;
     tile.innerText = char;
+    tile.setAttribute("disabled","disabled");
     tile.classList.add("tile");
     charToClass(tile);
     return tile;
@@ -98,6 +108,7 @@ function charToClass(tile) {
         case 'C':
             tile.style.color = "transparent";
             tile.style.backgroundColor = "#BBBBBB";
+            tile.removeAttribute("disabled");
             return;
         case '*':
             tile.style.color = "transparent";

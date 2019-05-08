@@ -1,5 +1,11 @@
 from src.com.webminesweeper.model.Tile import Tile
-import random
+from enum import Enum
+
+
+class BoardState(Enum):
+    IN_PROGRESS = 1,
+    WON = 2,
+    LOST = 3
 
 
 class Board(object):
