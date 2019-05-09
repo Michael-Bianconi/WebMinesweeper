@@ -6,7 +6,7 @@ from flask_login import LoginManager
 app = Flask(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
-board = Board(10, 20)
+board = Board(15, 10)
 controller = BoardController(board)
 controller.place_bombs(25)
 
@@ -35,8 +35,20 @@ def lost():
 def on_tile_click():
 
     position = request.json['position']
+    click_type = request.json['action']
     coords = position.split(',')
-    controller.uncover_region(int(coords[0]), int(coords[1]))
-    state = controller.board_state()
+    row = int(coords[0])
+    col = int(coords[1])
 
+    if click_type == "flag":
+        tile = board.get(row, col)
+        if tile.flagged:
+            controller.unflag(row, col)
+        else:
+            controller.flag(row, col)
+
+    else:
+        controller.uncover_region(row, col)
+
+    state = controller.board_state()
     return json.dumps({'board': board.__str__(), 'state': state.__str__()})

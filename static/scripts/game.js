@@ -2,8 +2,31 @@
  * Global attributes                                                          *
  *****************************************************************************/
 
-var BOARD_WIDTH_PX = "400px";
-var BOARD_HEIGHT_PX = "400px";
+const BOARD_WIDTH_PX = "400px";
+const BOARD_HEIGHT_PX = "400px";
+const CLICK_UNCOVER = "uncover";
+const CLICK_FLAG = "flag";
+const FLAG_IMG = "url(static/images/flag.png) no-repeat";
+const BOMB_IMG = "url(static/images/bomb.png) no-repeat";
+const FLAG_BUTTON_ACTIVE_COLOR = "#BBBBBB";
+const FLAG_BUTTON_INACTIVE_COLOR = "#EEEEEE";
+
+var clickType = CLICK_UNCOVER;
+
+function onFlagButtonClick() {
+
+    var flagButton = document.getElementById("flagButton");
+
+    if (clickType === CLICK_UNCOVER) {
+        clickType = CLICK_FLAG;
+        flagButton.style.backgroundColor = FLAG_BUTTON_ACTIVE_COLOR;
+    }
+
+    else {
+        clickType = CLICK_UNCOVER;
+        flagButton.style.backgroundColor = FLAG_BUTTON_INACTIVE_COLOR;
+    }
+}
 
 /**
  * Called when a tile is clicked. Sends the coordinates
@@ -17,23 +40,20 @@ function onTileClick() {
 
         url: "/onTileClick",
         type: "POST",
-        data: JSON.stringify({"position": position}),
+        data: JSON.stringify({"position": position, "action":clickType}),
         contentType: "application/json; charset=UTF-8",
         dataType: "json",
         // The route should return the string of tiles
         // On success, rebuild the board
         success: function(result) {
-            console.log(JSON.stringify(result));
+            var oldBoard = document.getElementById("boardTable");
+            oldBoard.parentNode.removeChild(oldBoard);
+            boardCreate(result['board']);
             if (result['state'] === "BoardState.WON") {
-                window.location = "/won";
+                alert("Won!");
             }
             else if (result['state'] === "BoardState.LOST") {
-                window.location = "/lost";
-            }
-            else {
-                var oldBoard = document.getElementById("boardTable");
-                oldBoard.parentNode.removeChild(oldBoard);
-                boardCreate(result['board']);
+                alert("Lost!");
             }
         }
     });
@@ -101,6 +121,18 @@ function buildTileButton(row, col, char) {
     return tile;
 }
 
+function buildFlagButton() {
+    var div = document.getElementById("flagDiv");
+    var button = document.createElement("button");
+    button.id = "flagButton";
+    button.name = "flagButton";
+    button.onclick = onFlagButtonClick;
+    button.style.background = FLAG_IMG;
+    button.style.backgroundPosition = "center";
+    button.classList.add("flag-button");
+    div.appendChild(button);
+}
+
 function charToClass(tile) {
 
     switch(tile.innerText) {
@@ -112,11 +144,15 @@ function charToClass(tile) {
             return;
         case '*':
             tile.style.color = "transparent";
-            tile.style.backgroundColor = "black";
+            tile.style.background = BOMB_IMG;
+            tile.style.backgroundPosition = "center";
             return;
         case 'F':
+            tile.style.background = FLAG_IMG;
+            tile.style.backgroundPosition = "center";
+            tile.style.backgroundColor = "#BBBBBB";
             tile.style.color = "transparent";
-            tile.style.backgroundColor = "red";
+            tile.removeAttribute("disabled");
             return;
 
         case '0':

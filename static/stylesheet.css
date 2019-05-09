@@ -5,6 +5,11 @@
     --tile-height-px:40px;
 }
 
+.flag-button {
+    width: var(--tile-width-px);
+    height: var(--tile-height-px);
+}
+
 .tile {
     border-color: black;
     width: 100%;
@@ -14,7 +19,7 @@
     font-size: calc(var(--tile-height-px) * 0.8);
 }
 
-.tile:hover {
+.tile:hover:not([disabled]) {
     filter: brightness(70%) invert(1);
 }
 

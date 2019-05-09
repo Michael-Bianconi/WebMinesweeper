@@ -12,7 +12,10 @@ class BoardController(object):
     def __init__(self, board: Board):
         self.board = board
 
-    def uncover(self, row: int, col: int):
+    def uncover(self, row: int, col: int, force: bool = False):
+        if not force:
+            if self.board.get(row, col).flagged:
+                return
         self.board.get(row, col).covered = False
 
     def flag(self, row: int, col: int):
@@ -64,7 +67,19 @@ class BoardController(object):
                     if n.bomb:
                         tile.digit += 1
 
-    def uncover_region(self, row: int, col: int):
+    def uncover_region(self, row: int, col: int, force: bool = False):
+        """
+        Uncovers the region. The region is defined as all connected
+        tiles with a digit of 0, as well as their immediate
+        neighbors. Unless "force" is enabled, clicking
+        :param row:
+        :param col:
+        :param force:
+        :return:
+        """
+        if not force:
+            if self.board.get(row, col).flagged:
+                return
         self.uncover(row, col)
         tile = self.board.get(row, col)
         if tile.digit == 0:

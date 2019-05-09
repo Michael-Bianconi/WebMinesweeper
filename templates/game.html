@@ -6,8 +6,14 @@
 <script src="{{url_for('static', filename='scripts/game.js')}}"></script>
 
 <body>
+
+    <div id="flagDiv">
+        <script>buildFlagButton()</script>
+    </div>
+
     <div id="boardDiv">
         <script>boardCreate("{{board|safe}}")</script>
     </div>
+
 </body>
 </html>
