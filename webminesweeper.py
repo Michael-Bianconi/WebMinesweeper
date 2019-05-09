@@ -16,7 +16,7 @@ def load_user(user_id):
     return User.get(user_id)
 
 
-@app.route('/game')
+@app.route('/')
 def game():
     return render_template('game.html', board=board.__str__())
 
