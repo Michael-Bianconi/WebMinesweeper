@@ -1,8 +1,8 @@
 :root {
     --board-row-count: 1; /* The number of columns on the board. */
     --board-col-count: 1; /* The number of rows on the board. */
-    --tile-width-px: 100px;
-    --tile-height-px:100px;
+    --tile-width-px: 40px;
+    --tile-height-px:40px;
 }
 
 .tile {
